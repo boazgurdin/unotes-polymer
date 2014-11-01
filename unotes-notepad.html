@@ -1,0 +1,89 @@
+<link rel="import" href="../components/polymer/polymer.html">
+<link rel="import" href="../components/paper-input/paper-input.html">
+<link rel="import" href="../components/firebase-element/firebase-element.html">
+
+<polymer-element name="unotes-notepad">
+  <template>
+    <style>
+    :host {
+      display: block;
+      position: relative;
+      background-color: white;
+      padding: 20px;
+      width: 100%;
+      font-size: 1.2rem;
+      font-weight: 300;
+    }
+    .card-header {
+      margin-bottom: 10px;
+    }
+
+    </style>
+
+    <firebase-element id="base" location="https://shining-heat-9423.firebaseio.com/" ref={{fbRef}} data="{{data}}" keys="{{keys}}"></firebase-element>
+
+    <!-- List of notes -->
+    <template repeat="{{key in keys}}">
+      <p>{{data[key]}}</p>
+    </template>
+
+    <paper-input id="writestuff" placeholder="write something" on-change="{{addNote}}"></paper-input>
+
+    <button id="reset" on-click="{{resetData}}">Reset</button>
+
+  </template>
+  <script>
+  Polymer({
+
+    ready: function() {
+      this.lastInput = '';
+      //this.testFirebase();
+    },
+
+    addNote: function() {
+
+      //Duplicate event fired by Chrome/core-input bug
+      if(this.lastInput == this.$.writestuff.value) {
+        this.$.writestuff.value = '';
+      }
+      else {
+        this.lastInput = this.$.writestuff.value;
+        console.log(this.$.writestuff.value);
+        this.fbRef.push(this.$.writestuff.value);
+      }
+
+    },
+
+    resetData: function() {
+      this.data = {};
+      this.fbRef.push( "a" );
+      this.fbRef.push( "b" );
+      this.fbRef.push( "c" );
+    },
+
+    printAll: function() {
+      console.log('here are all your notes:');
+      for(i in this.notes) {
+        console.log(this.notes[i]);
+      }
+    },
+
+    testFirebase: function() {
+      var myFirebaseRef = new Firebase("https://shining-heat-9423.firebaseio.com/");
+      myFirebaseRef.set({
+        title: "Hello World!",
+        author: "Firebase",
+        location: {
+          city: "San Francisco",
+          state: "California",
+          zip: 94103
+        }
+      });
+      myFirebaseRef.child("location/city").on("value", function(snapshot) {
+        alert(snapshot.val());  // Alerts "San Francisco"
+      });
+    }
+
+  });
+  </script>
+</polymer-element>
