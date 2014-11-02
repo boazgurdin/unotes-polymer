@@ -1,0 +1,55 @@
+<link rel="import" href="../components/polymer/polymer.html">
+<link rel="import" href="../components/firebase-element/firebase-element.html">
+<!--<link rel="import" href="../fake-firebase-element/fake-firebase-element.html">-->
+
+<polymer-element name="unotes-script" attributes="project selected">
+  <template>
+    <style>
+    :host {
+      display: block;
+      position: relative;
+      background-color: white;
+      padding: 20px;
+      width: 100%;
+      font-size: 1.2rem;
+      font-weight: 300;
+    }
+    .card-header {
+      margin-bottom: 10px;
+    }
+
+    </style>
+
+    <firebase-element id="base" location="https://shining-heat-9423.firebaseio.com/scripts" ref={{fbRef}} data="{{data}}" keys="{{keys}}"></firebase-element>
+
+    <!-- List of items (items == interview questions) -->
+    <template repeat="{{key in keys}}">
+      <p><a href="#" on-click="{{selectItem}}">{{data[key]}}</a></p>
+    </template>
+
+    <button id="reset" on-click="{{resetScript}}">Reset Script</button>
+
+  </template>
+  <script>
+  Polymer({
+
+    ready: function() {
+      this.$.base.location += "/" + this.project;
+    },
+
+    selectItem: function(event, details, sender) {
+      event.preventDefault();
+      this.selected = event.target.templateInstance.model.key;
+    },
+
+    resetScript: function() {
+      this.data = {};
+      this.fbRef.push( "question one" );
+      this.fbRef.push( "question two" );
+      this.fbRef.push( "question three" );
+      this.items = this.data;
+    },
+
+  });
+  </script>
+</polymer-element>

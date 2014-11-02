@@ -1,0 +1,41 @@
+<link rel="import" href="../components/polymer/polymer.html">
+<link rel="import" href="unotes-script.html">
+<link rel="import" href="unotes-item-notepad.html">
+
+<polymer-element name="unotes-notes-editor" attributes="project session">
+  <template>
+    <style>
+    :host {
+      display: block;
+      position: relative;
+      background-color: white;
+      padding: 20px;
+      width: 100%;
+      font-size: 1.2rem;
+      font-weight: 300;
+    }
+    .card-header {
+      margin-bottom: 10px;
+    }
+
+    .left-col, .right-col {
+      position: relative;
+      float: left;
+      width: 400px;
+      margin: 20px;
+    }
+    </style>
+
+    <div class="left-col">
+      <unotes-script project="{{project}}" selected="{{selectedItem}}"></unotes-script>
+    </div>
+    <div class="right-col">
+      <unotes-item-notepad project="{{project}}" session="{{session}}" item="{{selectedItem}}"></unotes-notepad>
+    </div>
+
+  </template>
+  <script>
+  Polymer({
+  });
+  </script>
+</polymer-element>

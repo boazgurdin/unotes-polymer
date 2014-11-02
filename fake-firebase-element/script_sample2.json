@@ -1,0 +1,23 @@
+{ "scripts" : {
+    "project1": {
+      "project":"project1_id",
+      "section_id1": {
+          "sectionName":"section one",
+          "items":{
+            "item1_id":"question one",
+            "item2_id":"question two",
+            "item3_id":"question three",
+            "sub_section_1a_id": {
+              "sectionName":"sub section 1a",
+              "item1a":"question 1a",
+              "item2a":"question 2a"
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+//given a key, if the value is a string, then consider it a question
+//else if the value is an object, consider it a section

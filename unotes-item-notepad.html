@@ -1,8 +1,9 @@
 <link rel="import" href="../components/polymer/polymer.html">
 <link rel="import" href="../components/paper-input/paper-input.html">
 <link rel="import" href="../components/firebase-element/firebase-element.html">
+<!--<link rel="import" href="../fake-firebase-element/fake-firebase-element.html">-->
 
-<polymer-element name="unotes-notepad">
+<polymer-element name="unotes-item-notepad" attributes="project session item">
   <template>
     <style>
     :host {
@@ -20,7 +21,7 @@
 
     </style>
 
-    <firebase-element id="base" location="https://shining-heat-9423.firebaseio.com/" ref={{fbRef}} data="{{data}}" keys="{{keys}}"></firebase-element>
+    <firebase-element id="base" location="https://shining-heat-9423.firebaseio.com/notes" ref={{fbRef}} data="{{data}}" keys="{{keys}}"></firebase-element>
 
     <!-- List of notes -->
     <template repeat="{{key in keys}}">
@@ -37,7 +38,25 @@
 
     ready: function() {
       this.lastInput = '';
-      //this.testFirebase();
+      this.baseLocation = this.$.base.location;
+      this.$.base.location += "/" + this.project + "/" + this.session + "/" + this.item;
+      console.log('location is now ' + this.$.base.location);
+    },
+
+    dataChanged: function() {
+      console.log("data changed in the notepad");
+      console.log(JSON.stringify(this.data));
+    },
+
+    keysChanged: function() {
+      console.log("keys changed in the notepad");
+      console.log(JSON.stringify(this.keys));
+    },
+
+    itemChanged: function() {
+      console.log('selected item changed');
+      this.$.base.location = this.baseLocation + "/" + this.project + "/" + this.session + "/" + this.item;
+      console.log('location is now ' + this.$.base.location);
     },
 
     addNote: function() {

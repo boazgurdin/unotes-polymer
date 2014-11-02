@@ -14,5 +14,5 @@
     "font-roboto": "Polymer/font-roboto#~0.4.2",
     "paper-input": "Polymer/paper-input#~0.4.2",
     "firebase": "1.1.x"
-  },
+  }
 }
