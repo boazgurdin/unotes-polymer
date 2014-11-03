@@ -21,11 +21,24 @@
 
     </style>
 
-    <firebase-element id="base" location="https://shining-heat-9423.firebaseio.com/notes" ref={{fbRef}} data="{{data}}" keys="{{keys}}"></firebase-element>
+    <!-- data format for notes (note that location seeks to note level on ready)
+      { "notes" : {
+          "project_id1" : {
+            "session_id1" : {
+              "note_id1":"note one",
+              "note_id2":"note one",
+              "note_id3":"note one"
+            }
+          }
+        }
+      }
+
+    -->
+    <firebase-element id="base" location="https://shining-heat-9423.firebaseio.com/notes/{{project}}/{{session}}/{{item}}" ref={{fbRef}} data="{{notes}}" keys="{{noteIDs}}"></firebase-element>
 
     <!-- List of notes -->
-    <template repeat="{{key in keys}}">
-      <p>{{data[key]}}</p>
+    <template repeat="{{noteID in noteIDs}}">
+      <p>{{notes[noteID]}}</p>
     </template>
 
     <paper-input id="writestuff" placeholder="write something" on-change="{{addNote}}"></paper-input>
@@ -38,25 +51,9 @@
 
     ready: function() {
       this.lastInput = '';
-      this.baseLocation = this.$.base.location;
-      this.$.base.location += "/" + this.project + "/" + this.session + "/" + this.item;
-      console.log('location is now ' + this.$.base.location);
-    },
-
-    dataChanged: function() {
-      console.log("data changed in the notepad");
-      console.log(JSON.stringify(this.data));
-    },
-
-    keysChanged: function() {
-      console.log("keys changed in the notepad");
-      console.log(JSON.stringify(this.keys));
-    },
-
-    itemChanged: function() {
-      console.log('selected item changed');
-      this.$.base.location = this.baseLocation + "/" + this.project + "/" + this.session + "/" + this.item;
-      console.log('location is now ' + this.$.base.location);
+      //this.baseLocation = this.$.base.location;
+      // this.$.base.location += "/" + this.project + "/" + this.session + "/" + this.item;
+      // console.log('notepad ready at location: ' + this.$.base.location);
     },
 
     addNote: function() {
@@ -74,10 +71,10 @@
     },
 
     resetData: function() {
-      this.data = {};
-      this.fbRef.push( "a" );
-      this.fbRef.push( "b" );
-      this.fbRef.push( "c" );
+      this.notes = {};
+      this.fbRef.push( "note a" );
+      this.fbRef.push( "note b" );
+      this.fbRef.push( "note c" );
     },
 
     printAll: function() {

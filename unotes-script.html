@@ -1,6 +1,5 @@
 <link rel="import" href="../components/polymer/polymer.html">
 <link rel="import" href="../components/firebase-element/firebase-element.html">
-<!--<link rel="import" href="../fake-firebase-element/fake-firebase-element.html">-->
 
 <polymer-element name="unotes-script" attributes="project selected">
   <template>
@@ -20,11 +19,37 @@
 
     </style>
 
-    <firebase-element id="base" location="https://shining-heat-9423.firebaseio.com/scripts" ref={{fbRef}} data="{{data}}" keys="{{keys}}"></firebase-element>
 
-    <!-- List of items (items == interview questions) -->
-    <template repeat="{{key in keys}}">
-      <p><a href="#" on-click="{{selectItem}}">{{data[key]}}</a></p>
+    <!-- data format (note that location moves to sections on ready)
+
+    { "scripts" : {
+        "project_id1": {
+          "sections" : {
+            "section_id1": {
+                "heading":"section 1",
+                "items":{
+                  "item_id1":"question 1.1",
+                  "item_id2":"question 1.2",
+                  "item_id3":"question 1.3",
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    -->
+    <firebase-element id="base" location="https://shining-heat-9423.firebaseio.com/scripts/{{project}}/sections" ref={{fbRef}} data="{{sections}}" keys="{{sectionIDs}}"></firebase-element>
+
+    <!-- iterate through sections of the script -->
+    <template repeat="{{sectionID in sectionIDs}}">
+      <p>
+        <b>{{sections[sectionID].heading}}</b><br>
+        <template repeat="{{item in objKeys(sections[sectionID].items)}}">
+          <a href="#" on-click="{{selectItem}}">{{sections[sectionID].items[item]}}</a><br>
+        </template>
+      </p>
     </template>
 
     <button id="reset" on-click="{{resetScript}}">Reset Script</button>
@@ -34,21 +59,34 @@
   Polymer({
 
     ready: function() {
-      this.$.base.location += "/" + this.project;
+      //this.$.base.location += "/" + this.project + "/sections";
     },
 
     selectItem: function(event, details, sender) {
       event.preventDefault();
-      this.selected = event.target.templateInstance.model.key;
+      this.selected = event.target.templateInstance.model.item;
     },
 
     resetScript: function() {
-      this.data = {};
-      this.fbRef.push( "question one" );
-      this.fbRef.push( "question two" );
-      this.fbRef.push( "question three" );
-      this.items = this.data;
+
+      this.sections = {
+              "section_id1": {
+                  "heading":"section one",
+                  "items":{
+                    "item_id1":"question one",
+                    "item_id2":"question two",
+                    "item_id3":"question three",
+                  }
+                }
+            };
+      this.items = this.sections;
     },
+
+    //hack bc Polymer doesn't iterate over objects, only arrays
+    //note that script array does not observe changes to the script object
+    objKeys: function(obj) {
+      return Object.keys(obj);
+    }
 
   });
   </script>
