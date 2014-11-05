@@ -1,7 +1,6 @@
 <link rel="import" href="../components/polymer/polymer.html">
 <link rel="import" href="../components/paper-input/paper-input.html">
-<link rel="import" href="../components/firebase-element/firebase-element.html">
-<!--<link rel="import" href="../fake-firebase-element/fake-firebase-element.html">-->
+<link rel="import" href="unotes-notes-datasource.html">
 
 <polymer-element name="unotes-item-notepad" attributes="project session item">
   <template>
@@ -34,7 +33,7 @@
       }
 
     -->
-    <firebase-element id="base" location="https://shining-heat-9423.firebaseio.com/notes/{{project}}/{{session}}/{{item}}" ref={{fbRef}} data="{{notes}}" keys="{{noteIDs}}"></firebase-element>
+    <unotes-notes-datasource id="notesSource" project="{{project}}" session="{{session}}" item="{{item}}" ref={{fbRef}} data="{{notes}}" keys="{{noteIDs}}"></unotes-notes-datasource>
 
     <!-- List of notes -->
     <template repeat="{{noteID in noteIDs}}">

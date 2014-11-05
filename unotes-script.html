@@ -1,5 +1,5 @@
 <link rel="import" href="../components/polymer/polymer.html">
-<link rel="import" href="../components/firebase-element/firebase-element.html">
+<link rel="import" href="unotes-script-datasource.html">
 
 <polymer-element name="unotes-script" attributes="project selected">
   <template>
@@ -40,7 +40,7 @@
     }
 
     -->
-    <firebase-element id="base" location="https://shining-heat-9423.firebaseio.com/scripts/{{project}}/sections" ref={{fbRef}} data="{{sections}}" keys="{{sectionIDs}}"></firebase-element>
+    <unotes-script-datasource id="base" project="{{project}}" ref={{fbRef}} data="{{sections}}" keys="{{sectionIDs}}"></unotes-script-datasource>
 
     <!-- iterate through sections of the script -->
     <template repeat="{{sectionID in sectionIDs}}">

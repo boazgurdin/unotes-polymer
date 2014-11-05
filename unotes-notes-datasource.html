@@ -1,0 +1,32 @@
+<link rel="import" href="../components/polymer/polymer.html">
+<link rel="import" href="../components/firebase-element/firebase-element.html">
+
+<polymer-element name="unotes-notes-datasource" extends="firebase-element" attributes="project session item">
+<template>
+</template>
+<script>
+Polymer({
+
+  ready: function() {
+    this.updateLocation();
+    this.super();
+  },
+
+  projectChanged: function() {
+    this.updateLocation();
+  },
+
+  sessionChanged: function() {
+    this.updateLocation();
+  },
+
+  itemChanged: function() {
+    this.updateLocation();
+  },
+
+  updateLocation: function() {
+    this.location = "https://shining-heat-9423.firebaseio.com/notes/" + this.project + "/" + this.session + "/" + this.item;
+  }
+});
+</script>
+</polymer-element>
