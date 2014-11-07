@@ -1,8 +1,10 @@
 <link rel="import" href="../components/polymer/polymer.html">
 <link rel="import" href="unotes-script.html">
 <link rel="import" href="unotes-item-notepad.html">
+<link rel="import" href="unotes-participant-datasource.html">
+<link rel="import" href="unotes-project-datasource.html">
 
-<polymer-element name="unotes-notes-editor" attributes="project session">
+<polymer-element name="unotes-notes-editor" attributes="project participant">
   <template>
     <style>
     :host {
@@ -26,12 +28,26 @@
     }
     </style>
 
+    <!-- Breadcrumb -->
+    <unotes-participant-datasource participant="{{participant}}" data="{{participantData}}"></unotes-participant-datasource>
+    <unotes-project-datasource project="{{project}}" data="{{projectData}}"></unotes-project-datasource>
+    <div class="breadcrumb">
+      {{projectData.name}}
+      &nbsp;/&nbsp;
+      {{participantData.name}}
+    </div>
+
+    <!-- Script (left col) -->
     <div class="left-col">
       <unotes-script project="{{project}}" selected="{{selectedItem}}"></unotes-script>
     </div>
+
+    <!-- Notes (right col) -->
+    <template if="{{selectedItem}}">
     <div class="right-col">
-      <unotes-item-notepad project="{{project}}" session="{{session}}" item="{{selectedItem}}"></unotes-notepad>
+      <unotes-item-notepad project="{{project}}" participant="{{participant}}" item="{{selectedItem}}"></unotes-notepad>
     </div>
+    </template>
 
   </template>
   <script>

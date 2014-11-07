@@ -1,4 +1,3 @@
-<link rel="import" href="../components/polymer/polymer.html">
 <link rel="import" href="unotes-script-datasource.html">
 
 <polymer-element name="unotes-script" attributes="project selected">
@@ -20,26 +19,6 @@
     </style>
 
 
-    <!-- data format (note that location moves to sections on ready)
-
-    { "scripts" : {
-        "project_id1": {
-          "sections" : {
-            "section_id1": {
-                "heading":"section 1",
-                "items":{
-                  "item_id1":"question 1.1",
-                  "item_id2":"question 1.2",
-                  "item_id3":"question 1.3",
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-
-    -->
     <unotes-script-datasource id="base" project="{{project}}" ref={{fbRef}} data="{{sections}}" keys="{{sectionIDs}}"></unotes-script-datasource>
 
     <!-- iterate through sections of the script -->
@@ -52,34 +31,13 @@
       </p>
     </template>
 
-    <button id="reset" on-click="{{resetScript}}">Reset Script</button>
-
   </template>
   <script>
   Polymer({
 
-    ready: function() {
-      //this.$.base.location += "/" + this.project + "/sections";
-    },
-
     selectItem: function(event, details, sender) {
       event.preventDefault();
       this.selected = event.target.templateInstance.model.item;
-    },
-
-    resetScript: function() {
-
-      this.sections = {
-              "section_id1": {
-                  "heading":"section one",
-                  "items":{
-                    "item_id1":"question one",
-                    "item_id2":"question two",
-                    "item_id3":"question three",
-                  }
-                }
-            };
-      this.items = this.sections;
     },
 
     //hack bc Polymer doesn't iterate over objects, only arrays

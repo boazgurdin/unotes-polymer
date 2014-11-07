@@ -1,13 +1,18 @@
-<link rel="import" href="../components/polymer/polymer.html">
 <link rel="import" href="../components/firebase-element/firebase-element.html">
 
-<polymer-element name="unotes-notes-datasource" extends="firebase-element" attributes="project session item">
+<polymer-element name="unotes-notes-datasource" extends="firebase-element" attributes="project participant item">
 <template>
 </template>
 <script>
+
 Polymer({
 
+  created: function() {
+      console.log("unotes notes datasource created");
+  },
+
   ready: function() {
+    console.log("unotes notes datasource is ready");
     this.updateLocation();
     this.super();
   },
@@ -16,7 +21,7 @@ Polymer({
     this.updateLocation();
   },
 
-  sessionChanged: function() {
+  participantChanged: function() {
     this.updateLocation();
   },
 
@@ -25,8 +30,25 @@ Polymer({
   },
 
   updateLocation: function() {
-    this.location = "https://shining-heat-9423.firebaseio.com/notes/" + this.project + "/" + this.session + "/" + this.item;
+    this.location = "https://shining-heat-9423.firebaseio.com/notes/" + this.project + "/" + this.participant + "/" + this.item;
+    console.log("unotes notes datasource location=" + this.location);
   }
 });
+
+/* data format for notes
+
+  { "notes" : {
+      "project_id1" : {
+        "participant_id1" : {
+          "note_id1":"note one",
+          "note_id2":"note one",
+          "note_id3":"note one"
+        }
+      }
+    }
+  }
+
+*/
+
 </script>
 </polymer-element>

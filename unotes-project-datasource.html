@@ -1,0 +1,29 @@
+<link rel="import" href="../components/firebase-element/firebase-element.html">
+
+<polymer-element name="unotes-project-datasource" extends="firebase-element" attributes="project">
+<template>
+</template>
+<script>
+Polymer({
+
+  ready: function() {
+    this.updateLocation();
+    this.super();
+  },
+
+  projectChanged: function() {
+    this.updateLocation();
+  },
+
+  updateLocation: function() {
+    this.location = "https://shining-heat-9423.firebaseio.com/projects/" + this.project;
+  },
+
+  //returns a sample participant object; does not set it in the database
+  sampleData: function() {
+    return "{ name: 'My Usability Test' }";
+  }
+
+});
+</script>
+</polymer-element>

@@ -1,8 +1,7 @@
-<link rel="import" href="../components/polymer/polymer.html">
 <link rel="import" href="../components/paper-input/paper-input.html">
 <link rel="import" href="unotes-notes-datasource.html">
 
-<polymer-element name="unotes-item-notepad" attributes="project session item">
+<polymer-element name="unotes-item-notepad" attributes="project participant item">
   <template>
     <style>
     :host {
@@ -20,20 +19,7 @@
 
     </style>
 
-    <!-- data format for notes (note that location seeks to note level on ready)
-      { "notes" : {
-          "project_id1" : {
-            "session_id1" : {
-              "note_id1":"note one",
-              "note_id2":"note one",
-              "note_id3":"note one"
-            }
-          }
-        }
-      }
-
-    -->
-    <unotes-notes-datasource id="notesSource" project="{{project}}" session="{{session}}" item="{{item}}" ref={{fbRef}} data="{{notes}}" keys="{{noteIDs}}"></unotes-notes-datasource>
+    <unotes-notes-datasource id="notesSource" project="{{project}}" participant="{{participant}}" item="{{item}}" ref={{fbRef}} data="{{notes}}" keys="{{noteIDs}}"></unotes-notes-datasource>
 
     <!-- List of notes -->
     <template repeat="{{noteID in noteIDs}}">
@@ -42,17 +28,13 @@
 
     <paper-input id="writestuff" placeholder="write something" on-change="{{addNote}}"></paper-input>
 
-    <button id="reset" on-click="{{resetData}}">Reset</button>
-
   </template>
   <script>
   Polymer({
 
     ready: function() {
       this.lastInput = '';
-      //this.baseLocation = this.$.base.location;
-      // this.$.base.location += "/" + this.project + "/" + this.session + "/" + this.item;
-      // console.log('notepad ready at location: ' + this.$.base.location);
+      console.log("notepad has participant: " + this.participant);
     },
 
     addNote: function() {
@@ -68,36 +50,6 @@
       }
 
     },
-
-    resetData: function() {
-      this.notes = {};
-      this.fbRef.push( "note a" );
-      this.fbRef.push( "note b" );
-      this.fbRef.push( "note c" );
-    },
-
-    printAll: function() {
-      console.log('here are all your notes:');
-      for(i in this.notes) {
-        console.log(this.notes[i]);
-      }
-    },
-
-    testFirebase: function() {
-      var myFirebaseRef = new Firebase("https://shining-heat-9423.firebaseio.com/");
-      myFirebaseRef.set({
-        title: "Hello World!",
-        author: "Firebase",
-        location: {
-          city: "San Francisco",
-          state: "California",
-          zip: 94103
-        }
-      });
-      myFirebaseRef.child("location/city").on("value", function(snapshot) {
-        alert(snapshot.val());  // Alerts "San Francisco"
-      });
-    }
 
   });
   </script>

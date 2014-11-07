@@ -1,0 +1,29 @@
+<link rel="import" href="../components/firebase-element/firebase-element.html">
+
+<polymer-element name="unotes-participant-datasource" extends="firebase-element" attributes="participant">
+<template>
+</template>
+<script>
+Polymer({
+
+  ready: function() {
+    this.updateLocation();
+    this.super();
+  },
+
+  participantChanged: function() {
+    this.updateLocation();
+  },
+
+  updateLocation: function() {
+    this.location = "https://shining-heat-9423.firebaseio.com/participants/" + this.participant;
+  },
+
+  //returns a sample participant object; does not set it in the database
+  sampleData: function() {
+    return "{ name: 'Pat Participant'}";
+  }
+
+});
+</script>
+</polymer-element>
