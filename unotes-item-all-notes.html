@@ -1,0 +1,37 @@
+<link rel="import" href="./components/firebase-element/firebase-element.html">
+
+<!--
+  Shows all notes for a given item, grouped by participant.
+-->
+<polymer-element name="unotes-item-all-notes" attributes="item project">
+
+<template>
+<firebase-element location="https://shining-heat-9423.firebaseio.com/participants/" data="{{participants}}" keys="{{participantIDs}}"></firebase-element>
+<template repeat="{{participantID in participantIDs}}">
+  <p>
+  <b>{{participants[participantID].name}}</b><br>
+  <firebase-element location="https://shining-heat-9423.firebaseio.com/notes/{{project}}/{{participantID}}/{{item}}" data="{{itemNotes[participantID]}}"></firebase-element>
+  <template repeat="{{itemNote in objVals(itemNotes[participantID])}}">
+    {{itemNote}}<br>
+  </template>
+  </p>
+</template>
+</template>
+
+<script>
+Polymer({
+
+  itemNotes: {},// "participant_id1":{"note_id511":"foo"}, "participant_id3":{"note_id311":"bar"} },
+
+  objVals: function(obj) {
+    if(!obj) return null;
+    return Object.keys(obj).map( function(key) { return obj[key]; });
+  },
+
+  objKeys: function(obj) {
+    return Object.keys(obj);
+  }
+});
+</script>
+
+</polymer-element>
