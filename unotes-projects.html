@@ -1,0 +1,42 @@
+<link rel="import" href="./components/firebase-element/firebase-element.html">
+
+<polymer-element name="unotes-projects">
+  <template>
+    <style>
+    :host {
+      display: block;
+      position: relative;
+      background-color: white;
+      padding: 20px;
+      width: 100%;
+      font-size: 1.2rem;
+      font-weight: 300;
+    }
+    .card-header {
+      margin-bottom: 10px;
+    }
+
+    </style>
+
+
+    <firebase-element id="base" location="https://shining-heat-9423.firebaseio.com/projects/" ref={{fbRef}} data="{{projects}}" keys="{{projectIDs}}"></firebase-element>
+
+    <!-- iterate through sections of the script -->
+    <template repeat="{{projectID in projectIDs}}">
+      <p><a href="{{'project-editor.html?project_id=' + projectID}}">{{projects[projectID].name}}</a></p>
+    </template>
+
+    <button on-click="{{resetProjects}}">Reset</button>
+
+  </template>
+  <script>
+  Polymer({
+
+    resetProjects: function() {
+      this.projects = { "project_id1":{"name":"Usability Study 1"},
+                        "project_id2":{"name":"Usability Study 2"} };
+    }
+
+  });
+  </script>
+</polymer-element>
